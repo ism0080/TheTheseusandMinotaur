@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Theseus and Minotaur</string>
+    <string name="button_play">Play</string>
+    <string name="button_load">Load</string>
+    <string name="button_save">Save</string>
+    <string name="pick_size">Maze Size</string>
+</resources>
