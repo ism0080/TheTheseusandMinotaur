@@ -1,12 +1,15 @@
 package nz.ac.ara.macklei.thetheseusandminotaur;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "nz.ac.ara.macklei.thetheseusandminotaur.MESSAGE";
@@ -54,9 +57,26 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Intent intent = getIntent();
+        String message;
+        if (intent != null) {
+            message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+            if (message != null) {
+                if (message.equals("play")) {
+                    this.sendMessagePlay();
+                }
+            }
+        }
     }
 
     public void sendMessagePlay(View view) {
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        PlayAlertDialogFragment playAlertDialogFragment = new PlayAlertDialogFragment();
+        playAlertDialogFragment.show(getSupportFragmentManager(), "Game");
+
+    }
+
+    public void sendMessagePlay() {
         android.app.FragmentManager fragmentManager = getFragmentManager();
         PlayAlertDialogFragment playAlertDialogFragment = new PlayAlertDialogFragment();
         playAlertDialogFragment.show(getSupportFragmentManager(), "Game");

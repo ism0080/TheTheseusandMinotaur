@@ -11,10 +11,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static nz.ac.ara.macklei.thetheseusandminotaur.MainActivity.decodeSampledBitmapFromResource;
 
@@ -23,18 +25,35 @@ import static nz.ac.ara.macklei.thetheseusandminotaur.MainActivity.decodeSampled
  */
 
 public class GameCustomActivity extends AppCompatActivity{
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_game);
 
-        // Get the Intent that started this activity and extract the string
+//        // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String message  = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         // Capture the layout's TextView and set the string as its text
         TextView textView = (TextView) findViewById(R.id.textView2);
         textView.setText(message);
+
+        GameCustomView view = (GameCustomView)findViewById(R.id.gameCustomView);
+        view.mazeType(message);
+
     }
+
+    public void sendMessageLevelSelect(View view) {
+        android.app.FragmentManager fragmentManager = getFragmentManager();
+        PlayAlertDialogFragment playAlertDialogFragment = new PlayAlertDialogFragment();
+        playAlertDialogFragment.show(getSupportFragmentManager(), "Game");
+
+    }
+
+    public void saveLevel(View view) {
+        Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+    }
+
 
 }

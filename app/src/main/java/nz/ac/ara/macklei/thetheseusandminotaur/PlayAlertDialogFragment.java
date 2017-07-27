@@ -24,6 +24,7 @@ public class PlayAlertDialogFragment extends DialogFragment{
                         // The 'which' argument contains the index position
                         // of the selected item
                         // Where the intent is to be sent
+
                         Intent game = new Intent(getActivity(), GameCustomActivity.class);
 
                         String message = levels[which];

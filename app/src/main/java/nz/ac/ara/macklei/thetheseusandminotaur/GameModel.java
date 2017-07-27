@@ -3,6 +3,8 @@ package nz.ac.ara.macklei.thetheseusandminotaur;
 /**
  * Created by MegaMac on 20/06/17.
  */
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,16 +20,17 @@ public class GameModel implements Saveable, Loadable, Game{
     @Override
     public void moveTheseus(Directions direction) {
         Point theseusAt = this.wheresTheseus();
-        Point theseusTo = new Pointer(theseusAt.across() + direction.acrossAdjust, theseusAt.down() + direction.downAdjust);
+        Point theseusTo = new Pointer(theseusAt.across() + direction.acrossAdjust,
+                            theseusAt.down() + direction.downAdjust);
 
         if (direction == Directions.SPACE) {
             this.moveMinotaur();
             this.moveMinotaur();
         }else {
             if (!this.isBlocked(direction, theseusAt, theseusTo)) {
-                this.setCell(theseusAt, Part.NOTHING, "character");
+                this.setCell(theseusAt, Part.NOTHING, "theseus");
                 this.addTheseus(theseusTo);
-                this.gameWinState(this.wheresTheseus());
+//                this.gameWinState(this.wheresTheseus());
                 this.theseusMove++;
             } else {
                 System.out.println("BLOCKED");
@@ -49,7 +52,7 @@ public class GameModel implements Saveable, Loadable, Game{
                 minotaurTo = new Pointer(
                         minotaurAt.across() + horizDir.acrossAdjust,
                         minotaurAt.down() + horizDir.downAdjust))) {
-            this.setCell(minotaurAt, Part.NOTHING, "character");
+            this.setCell(minotaurAt, Part.NOTHING, "minotaur");
             this.addMinotaur(minotaurTo);
             this.minotaurMove++;
         } else if (vertDir != null
@@ -57,11 +60,11 @@ public class GameModel implements Saveable, Loadable, Game{
                 minotaurTo = new Pointer(
                         minotaurAt.across() + vertDir.acrossAdjust,
                         minotaurAt.down() + vertDir.downAdjust))) {
-            this.setCell(minotaurAt, Part.NOTHING, "character");
+            this.setCell(minotaurAt, Part.NOTHING, "minotaur");
             this.addMinotaur(minotaurTo);
             this.minotaurMove++;
         }
-        this.gameLossState(theseusAt);
+//        this.gameLossState(theseusAt);
     }
 
     private boolean isBlocked(Directions direction, Point current, Point destination) {
@@ -112,7 +115,7 @@ public class GameModel implements Saveable, Loadable, Game{
 
     private void gameLossState(Point theseusAt) {
         Cell cell = this.getCell(theseusAt);
-        if (cell.get("character") != Part.THESEUS){
+        if (cell.get("theseus") != Part.THESEUS){
             System.out.println("LOSER");
         }
     }
@@ -140,17 +143,21 @@ public class GameModel implements Saveable, Loadable, Game{
         if (this.width > 0 && this.depth > 0) {
             this.levelBuilder();
         }
+        Log.d("Orig Depth", "Size: " + this.depth);
         return this.depth;
     }
 
     private void levelBuilder() {
-        for (int i = 0; i < this.depth; i++) {
-            List<Cell> row = new ArrayList<Cell>();
-            for (int j = 0; j < this.width; j++) {
-                row.add(new Cell());
+        if (level.isEmpty()) {
+            for (int i = 0; i < this.depth; i++) {
+                List<Cell> row = new ArrayList<Cell>();
+                for (int j = 0; j < this.width; j++) {
+                    row.add(new Cell());
+                }
+                level.add(row);
             }
-            this.level.add(row);
         }
+        Log.d("LevelBuild Depth", "Size: " + this.level.size());
     }
 
     private Cell getCell(Point where) {
@@ -200,12 +207,12 @@ public class GameModel implements Saveable, Loadable, Game{
 
     @Override
     public void addTheseus(Point where) {
-        this.setCell(where, Part.THESEUS, "character");
+        this.setCell(where, Part.THESEUS, "theseus");
     }
 
     @Override
     public void addMinotaur(Point where) {
-        this.setCell(where, Part.MINOTAUR, "character");
+        this.setCell(where, Part.MINOTAUR, "minotaur");
 
     }
 
@@ -217,12 +224,12 @@ public class GameModel implements Saveable, Loadable, Game{
 
     @Override
     public int getWidthAcross() {
-        return this.width;
+        return this.level.get(0).size();
     }
 
     @Override
     public int getDepthDown() {
-        return this.depth;
+        return this.level.size();
     }
 
     @Override
@@ -237,12 +244,12 @@ public class GameModel implements Saveable, Loadable, Game{
 
     @Override
     public Point wheresTheseus() {
-        return this.getObjectLocation(Part.THESEUS, "character");
+        return this.getObjectLocation(Part.THESEUS, "theseus");
     }
 
     @Override
     public Point wheresMinotaur() {
-        return this.getObjectLocation(Part.MINOTAUR, "character");
+        return this.getObjectLocation(Part.MINOTAUR, "minotaur");
     }
 
     @Override

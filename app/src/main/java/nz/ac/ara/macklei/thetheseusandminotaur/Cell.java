@@ -12,7 +12,8 @@ public class Cell {
     public Cell() {
         this.things.put("top", Wall.NOTHING);
         this.things.put("left", Wall.NOTHING);
-        this.things.put("character", Part.NOTHING);
+        this.things.put("theseus", Part.NOTHING);
+        this.things.put("minotaur", Part.NOTHING);
         this.things.put("objective", Part.NOTHING);
     }
 
